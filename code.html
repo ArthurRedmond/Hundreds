@@ -27,8 +27,8 @@
     <!-- ==== Nav Section === -->
     <nav class="navbar navbar-expand-md navbar-dark fixed-top">
         <div class="container-fluid">
-            <a class="navbar-brand logoFont" href="#"><img src="/img/AR Mark.svg" class="d-inline-block align-text-bottom"
-                    width="30" height="24"> The Hundreds</a>
+            <a class="navbar-brand logoFont" href="#"><img src="/img/AR Mark.svg"
+                    class="d-inline-block align-text-bottom" width="30" height="24"> The Hundreds</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
                 aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -62,17 +62,64 @@
             <div class="row row-cols-1 row-cols-lg-2">
                 <div class="col-lg-8">
                     <pre class="line-numbers"><code class="language-javascript">
-                        //Call HelloWorld 
-                        function HelloWorld() {
-                            alert("Hello World");
+                        function getValues() {
+                            let startValue = document.getElementById("startValue").value;
+                            let endValue = document.getElementById("endValue").value;
+                        
+                            startValue = parseInt(startValue);
+                            endValue = parseInt(endValue);
+                        
+                            if (Number.isInteger(startValue) && Number.isInteger(endValue)) {
+                                let numbers = generateNumbers(startValue, endValue);
+                                displayNumbers(numbers)
+                            } else {
+                                alert("You must enter integers")
+                            }
+                        }
+                        
+                        function generateNumbers(startValue, endValue) {
+                            let numbers = [];
+                            for (let i = startValue; i <= endValue; i++) {
+                                numbers.push(i);
+                            }
+                            return numbers;
+                        }
+                        
+                        function displayNumbers(numbers) {
+                            let templateRows = "";
+                            let className = "";
+                            for (let i = 0; i < numbers.length; i++) {
+                                let number = numbers[i];
+                                if (number % 2 == 0) {
+                                    className = "even";
+                                } else {
+                                    className = "odd";
+                                }
+                                //This does not render properly with Prism. Please see source code
+                                templateRows += `<tr><td class="${className}">${number}</td></tr>`
+                            }
+                            document.getElementById("results").innerHTML = templateRows;
                         }
                     </code>
                     </pre>
                 </div>
                 <div class="col-lg-4">
-                    <p>The Code is structed in one function.</p>
-                    <h5>Hello World</h5>
-                    <p>Hello World is a function that displays an alert with a message of "Hello World"</p>
+                    <p>The Code is structed in three functions.</p>
+                    <h5>getValues()</h5>
+                    <p>This function declares two variables to retrieve the start and ending values from the
+                        application's form. It parses them to verify the values are integers. If they are, the values
+                        are passed to the generateNumbers function and the returned array is passed to the final
+                        displayNumbers function.</p>
+                    <h5>generateNumers()</h5>
+                    <p>This function recieves the passed parameters from the getValues function, declares an empty
+                        array, uses a for loop to insert the values between the passed parameters into the array, and
+                        finally return the array.</p>
+                    <h5>displayNumbers()</h5>
+                    <p>This function recieves the passed array from the getValues function, declares empty strings to
+                        use to insert HTML tags and classes to the DOM. It uses a for loop to loop through the indexes
+                        of the array and depending on whether the values are even or odd to assign an appropriate class
+                        name. It then appends to a string the HTML tags, classes and content for a table using a string
+                        literal. Finally it inserts this into the DOM.</p>
                 </div>
             </div>
         </div>
